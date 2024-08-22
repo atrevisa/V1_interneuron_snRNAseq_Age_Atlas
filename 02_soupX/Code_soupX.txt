@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+author: "Cody Ramirez"
+date: "2/23/2023"
+output: html_document
+---
+
+Single use script used for testing and troubleshooting
+```{r}
+Sample = "/media/ResearchHome/bikoffgrp/home/common/Cody/1_Cellranger/cellranger_forcecells/P56LR1_cellranger"
+OutsFolder = paste(Sample, "/outs", sep = "")
+# # Load data and estimate soup profile
+SoupChannel = load10X(OutsFolder)
+# pdf(file = paste(OutsFolder, "/SoupX_output.pdf", sep = ""))
+# # Estimate rho
+SoupChannel = autoEstCont(SoupChannel)
+# # Clean the data
+out = adjustCounts(SoupChannel, roundToInt = TRUE)
+DropletUtils:::write10xCounts(paste(OutsFolder, "/strainedCounts", sep = ""), out)
+dev.off()
+```
+
+
+All samples script used for final run
+```{r}
+library(Seurat)
+library(SoupX)
+
+AllSamples = list.files(path = "/media/ResearchHome/bikoffgrp/home/common/Cody/1_Cellranger/cellranger_forcecells", pattern = "P.*_cellranger", full.names = TRUE)
+
+for (Sample in AllSamples)
+{
+  if (!grepl("P56LR1_cellranger", Sample, fixed = TRUE))
+  {
+    print(Sample)
+    OutsFolder = paste(Sample, "/outs", sep = "")
+    pdf(file = paste(OutsFolder, "/SoupX_output.pdf", sep = ""))
+    # Load data and estimate soup profile
+    SoupChannel = load10X(OutsFolder)
+    # Estimate rho
+    SoupChannel = autoEstCont(SoupChannel)
+    # Clean the data
+    out = adjustCounts(SoupChannel, roundToInt = TRUE)
+    # Of course, the next thing you'll want to do is to load this corrected expression matrix into some downstream analysis tool and further analyse the data.
+    # The corrected matrix can then be used for any downstream analysis in place of the uncorrected raw matrix. If you are using 10X data and would like to save these final counts out in the same format, you can use the DropletUtils write10xCounts function like this,
+    DropletUtils:::write10xCounts(paste(OutsFolder, "/strainedCounts", sep = ""), out, overwrite = TRUE)
+    dev.off()
+  }
+  
+}
+```
