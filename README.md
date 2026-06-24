@@ -1,29 +1,28 @@
-# V1_interneuron_snRNAseq
 # V1 Interneuron snRNA-seq Age Atlas Analysis
 
 ## Overview
 
-This repository contains the code used to generate the single-nucleus RNA sequencing (snRNA-seq) atlas of spinal V1 interneurons across postnatal development described in:
+This repository contains the code used to generate the single-nucleus RNA sequencing (snRNA-seq) atlas of spinal V1 interneurons across postnatal development described in the preprint:
 
-> Trevisan AJ, et al.
-> *Transcriptomic analysis of spinal V1 interneurons informs their multifunctional role in motor output.*
-> Nature Communications (2026)
+Trevisan AJ, Han K, Chapman P, Kulkarni AS, Hinton JM, Ramirez C, Klein I, Gatto G, Gabitto MI, Menon V, Bikoff JB. The transcriptomic landscape of spinal V1 interneurons reveals a role for En1 in specific elements of motor output. bioRxiv [Preprint]. 2024 Oct 26:2024.09.18.613279. doi: 10.1101/2024.09.18.613279. PMID: 39345580; PMCID: PMC11429899.
 
 The analysis workflow includes quality control, data integration, clustering, cell-type annotation, differential gene expression analysis, and generation of figures used in the manuscript.
+
+An interactive website can be used to view the data here: <https://v1interneurons.stjude.org/shinyApp/>
+
 
 ---
 
 ## Associated Publication
 
-**Citation**
+**Preprint:** 
 
-Trevisan AJ, et al.
+Trevisan AJ, Han K, Chapman P, Kulkarni AS, Hinton JM, Ramirez C, Klein I, Gatto G, Gabitto MI, Menon V, Bikoff JB. The transcriptomic landscape of spinal V1 interneurons reveals a role for En1 in specific elements of motor output. bioRxiv [Preprint]. 2024 Oct 26:2024.09.18.613279. doi: 10.1101/2024.09.18.613279. PMID: 39345580; PMCID: PMC11429899.
 
-*Transcriptomic analysis of spinal V1 interneurons informs their multifunctional role in motor output.*
+**Final publication:**
 
-Nature Communications (2026)
+In progress
 
-**DOI:** To be added upon publication.
 
 ---
 
@@ -32,6 +31,8 @@ Nature Communications (2026)
 Raw sequencing data, count matrices, and associated metadata are available through the Gene Expression Omnibus (GEO).
 
 **GEO Accession:** GSE275595
+
+**Link to GEO page:** <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE275595>
 
 Input data should be downloaded and placed in the appropriate data directories prior to executing the analysis scripts.
 
@@ -56,35 +57,34 @@ The workflow performs:
 
 ## Repository-to-Manuscript Mapping
 
-The table below links key analyses and manuscript figures to the scripts used to generate them.
+The figures below were generated using the code in this repository
 
-| Manuscript Item       | Description                                                                | Script(s)                               |
-| --------------------- | -------------------------------------------------------------------------- | --------------------------------------- |
-| Figure 1              | Data processing, quality control, and overview of the V1 interneuron atlas | `01_preprocessing.R`                    |
-| Figure 2              | Dimensionality reduction, clustering, and cell-type identification         | `02_clustering.R`                       |
-| Figure 3              | Marker gene identification and subtype characterization                    | `03_marker_analysis.R`                  |
-| Figure 4              | Developmental comparisons and differential expression analyses             | `04_differential_expression.R`          |
-| Figure 5              | Functional characterization and downstream analyses                        | `05_downstream_analysis.R`              |
-| Supplementary Figures | Additional analyses and validation experiments                             | Corresponding scripts in `scripts/`     |
-| Supplementary Tables  | Marker genes and differential expression results                           | Export scripts within analysis workflow |
+**Figure 2B-2G:** Overview of the postnatal V1 atlas, clustering at multiple resolutions, identification of previously characterized non-overlapping clades (FoxP2+, Pou6f2+, Sp8+, and Calb1+)
 
-> **Note:** Update script names to match the final repository structure.
+**Figure 3A, 3H, 3I:** Identification of a novel V1 clade identified by Rnf220 expression that is mutually exclusive to FoxP2, Pou6f2, Sp8, and Calb1
 
----
+**Figure 4A, 4C, 4E:** More detailed molecular profiling of V1 interneurons, specifically, the differentially expressed transcription factors and ion channels
 
-## Repository Structure
+**Figure 5A-5G:** Analysis of age-related changes in V1 gene expression
 
-```text
-.
-├── data/                # Input data files (not included)
-├── scripts/             # Analysis scripts
-├── figures/             # Figure generation scripts and outputs
-├── results/             # Processed objects and results
-├── SessionInfo/         # Software versions and package information
-└── README.md
-```
+**Supplementary Figure 2D - 2N:** Detailed description of how V1 nuclei were identified including QC, positive, and negative selection
 
-Directory names may vary depending on the final repository version.
+**Supplementary Figure 3:** Basic QC stats of the final data included in the figures and website
+
+**Supplementary Figure 5A - 5D:** Detailed description of previously characterized transcription factors within the V1 interneurons, and detailed profiling of the Sp8+ subsets
+
+**Supplementary Figure 6:** Analyses showing the relationships between the V1 subsets
+
+**Supplementary Table 1:** QC metrics from cellranger
+
+**Supplementary Table 2:** Marker genes used in V1 nuclei identification
+
+**Supplementary Table 3:** The unique cell barcodes that were used in the final V1 atlas
+
+**Supplementary Table 4:** Differentially expressed genes in V1 subsets
+
+**Supplementary Table 6:** Differentially expressed genes across time points
+
 
 ---
 
@@ -93,6 +93,7 @@ Directory names may vary depending on the final repository version.
 Analyses were performed using:
 
 * R (version specified in SessionInfo)
+* Python
 * Seurat
 * Scanpy
 
@@ -112,15 +113,6 @@ A typical workflow consists of:
 4. Differential expression analysis
 5. Figure generation
 
-Example:
-
-```bash
-Rscript scripts/01_preprocessing.R
-Rscript scripts/02_clustering.R
-Rscript scripts/03_marker_analysis.R
-Rscript scripts/04_differential_expression.R
-```
-
 Refer to individual scripts for required inputs and outputs.
 
 ---
@@ -133,8 +125,7 @@ The workflow generates:
 * Cluster annotations
 * Marker gene tables
 * Differential expression results
-* Publication-quality figures
-* Supplementary analysis outputs
+
 
 ---
 
@@ -150,14 +141,11 @@ Minor differences in numerical values or visualization appearance may occur when
 
 Questions regarding the analysis workflow may be directed to:
 
-**Alexandra J. Trevisan**
-
-or
-
 **Jay B. Bikoff**
 
-Department of Developmental Neurobiology
-St. Jude Children's Research Hospital
+<Jay.Bikoff@STJUDE.ORG>  
+Department of Developmental Neurobiology  
+St. Jude Children's Research Hospital  
 Memphis, TN, USA
 
 ---
